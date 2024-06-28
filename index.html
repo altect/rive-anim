@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Meesta design</title>
+    <title>Rive Hello World</title>
     <style>
         body {
             display: flex;
@@ -12,18 +12,28 @@
             background-color: #f0f0f0; /* Optional: background color for the page */
         }
 
-        #canvas {
-            border-radius: 50%; /* Makes the canvas a circle */
-            width: 500px; /* Ensure the canvas stays within the circle */
-            height: 500px; /* Ensure the canvas stays within the circle */
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%; /* Makes the container a circle */
             overflow: hidden; /* Hide overflow outside the circle */
-            border: 5px solid black; /* Optional: border around the canvas */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: shadow around the canvas */
+            border: 5px solid black; /* Optional: border around the container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: shadow around the container */
+        }
+
+        #canvas {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <div class="canvas-container">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
 
     <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
     <script>
