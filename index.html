@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rive Hover Effect Example</title>
+    <title>Rive Animation with State Machine</title>
     <style>
         body {
             display: flex;
@@ -9,7 +9,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0; /* Optional: background color for the page */
+            background-color: #f0f0f0;
         }
 
         .canvas-container {
@@ -18,10 +18,10 @@
             align-items: center;
             width: 500px;
             height: 500px;
-            border-radius: 50%; /* Makes the container a circle */
-            overflow: hidden; /* Hide overflow outside the circle */
-            border: 5px solid black; /* Optional: border around the container */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: shadow around the container */
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         #canvas {
@@ -40,10 +40,10 @@
         let riveInstance;
 
         const r = new rive.Rive({
-            src: "meesta_profile.riv", // Ensure the correct path to your .riv file
+            src: "meesta_profile.riv",
             canvas: document.getElementById("canvas"),
             autoplay: true,
-            stateMachines: "bumpy", // Ensure this matches your state machine name
+            stateMachines: "State Machine 1", // Ensure this matches your state machine name
             onLoad: () => {
                 r.resizeDrawingSurfaceToCanvas();
                 riveInstance = r;
@@ -54,15 +54,32 @@
         });
 
         const canvasContainer = document.querySelector('.canvas-container');
-        canvasContainer.addEventListener('mousemove', (event) => {
-            if (riveInstance) {
-                const rect = canvasContainer.getBoundingClientRect();
-                const x = (event.clientX - rect.left) / rect.width; // Normalize mouse X position
-                const y = (event.clientY - rect.top) / rect.height; // Normalize mouse Y position
 
-                // Assuming the Rive file has a number input named 'eyeX' and 'eyeY' for eye movement
-                riveInstance.inputs['eyeX'].value = x * 2 - 1; // Adjust range to -1 to 1
-                riveInstance.inputs['eyeY'].value = y * 2 - 1; // Adjust range to -1 to 1
+        canvasContainer.addEventListener('pointerdown', (event) => {
+            if (riveInstance) {
+                riveInstance.inputs['CheekIsDragging'].value = true;
+                riveInstance.inputs['CHEEK DETECT TRUE'].value = true;
+                riveInstance.inputs['CHIN DETECT TRUE'].value = true;
+            }
+        });
+
+        canvasContainer.addEventListener('pointermove', (event) => {
+            if (riveInstance) {
+                // Implement specific tracking logic here
+                // For example:
+                // - Detect if the pointer is over the cheek or chin area
+                // - Update the inputs accordingly
+                // - Use listeners like "CHEEK TRACKING" and "CHIN TRACKING" as needed
+            }
+        });
+
+        canvasContainer.addEventListener('pointerup', () => {
+            if (riveInstance) {
+                riveInstance.inputs['CheekIsDragging'].value = false;
+                riveInstance.inputs['CHEEK DETECT FALSE'].value = true;
+                riveInstance.inputs['CHEEKIsCorrect'].value = true;
+                riveInstance.inputs['IsCorrect'].value = true;
+                riveInstance.inputs['IsDragging'].value = false;
             }
         });
     </script>
