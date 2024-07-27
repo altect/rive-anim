@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rive Hello World</title>
+    <title>Rive Hover Effect Example</title>
     <style>
         body {
             display: flex;
@@ -37,14 +37,33 @@
 
     <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
     <script>
+        let riveInstance;
+
         const r = new rive.Rive({
-            src: "meesta_profile.riv",
+            src: "meesta_profile.riv", // Ensure the correct path to your .riv file
             canvas: document.getElementById("canvas"),
             autoplay: true,
-            stateMachines: "bumpy",
+            stateMachines: "bumpy", // Ensure this matches your state machine name
             onLoad: () => {
                 r.resizeDrawingSurfaceToCanvas();
+                riveInstance = r;
             },
+            onError: (error) => {
+                console.error("Rive file loading error:", error);
+            }
+        });
+
+        const canvasContainer = document.querySelector('.canvas-container');
+        canvasContainer.addEventListener('mousemove', (event) => {
+            if (riveInstance) {
+                const rect = canvasContainer.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width; // Normalize mouse X position
+                const y = (event.clientY - rect.top) / rect.height; // Normalize mouse Y position
+
+                // Assuming the Rive file has a number input named 'eyeX' and 'eyeY' for eye movement
+                riveInstance.inputs['eyeX'].value = x * 2 - 1; // Adjust range to -1 to 1
+                riveInstance.inputs['eyeY'].value = y * 2 - 1; // Adjust range to -1 to 1
+            }
         });
     </script>
 </body>
